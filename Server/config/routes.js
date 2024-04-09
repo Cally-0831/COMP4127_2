@@ -52,6 +52,9 @@ module.exports.routes = {
     view: 'Unsuccessful'
   },
   "GET /downloadlink" :"FileController.downloadlink",
+  "GET /DuplicateFile": {
+    view: 'DuplicateFile'
+  },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

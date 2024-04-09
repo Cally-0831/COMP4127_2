@@ -3,10 +3,10 @@
         <p class="title"> Welcome to File Encryption & Decrptyion Center</p>
     </div>
 </section>
-<div class="columns is-mobile is-centered is-multiline">
+<div class="columns is-mobile is-centered is-multiline is-3-desktop">
 
 
-    <div class="column is-half">
+    <div class="column">
         <section class="section is-large" style="align-items: center;">
             <div class="box" style="background-color: rgb(247, 180, 98);">
                 <h1 class="title">Encrypt with Public Key Path</h1>
@@ -23,7 +23,7 @@
             </div>
         </section>
     </div>
-    <div class="column is-half">
+    <div class="column">
         <section class="section is-large">
             <form class="box" action="/download" method="post" enctype="multipart/form-data" id="decryptWithPublicKey"
                 style="background-color: rgb(89, 182, 232);">
@@ -53,7 +53,7 @@
     </div>
     
 
-    <div class="column is-half">
+    <div class="column ">
         <section class="section is-large" style="align-items: center;">
             <div class="box" style="background-color: rgb(247, 180, 98);">
                 <h1 class="title">Encrypt with Passphase Path</h1>
@@ -75,7 +75,7 @@
         </section>
     </div>
 
-    <div class="column is-half">
+    <div class="column">
         <section class="section is-large" style="align-items: center;">
             <form class="box" action="/downloadwithPW" method="post" enctype="multipart/form-data" id="encryptionForm"
                 style="background-color: rgb(89, 182, 232);">
@@ -85,6 +85,7 @@
                 <div>
                     <label for="fileNamePW">File Name:</label>
                     <input type="text" id="fileNamePW" name="filename" required>
+                    <br>
                     <label for="PassphraseDe">Passphrase:</label>
                     <input type="password" id="PassphraseDe" name="passphrase" required>
                     <button type="submit">Download File</button>

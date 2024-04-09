@@ -116,7 +116,7 @@ var privateKey = fs.readFileSync('private_key.pem', "utf8");
 
 module.exports = {
 
- 
+
     LoginPage: async function (req, res) {
         // console.log(pub)
         // console.log(pri)
@@ -383,7 +383,7 @@ module.exports = {
                 // console.log(file.fd)
 
                 // Encrypt the file data with the public key
-                console.log( "readdata", data )
+                console.log("readdata", data)
 
                 // console.log("encrptydata", encrypted)
                 // console.log(
@@ -395,18 +395,29 @@ module.exports = {
                 var hashedfilename = crypto.createHash('sha1')
                     .update(file.filename).digest('hex');
                 // console.log(hashedfilename)
-                const encryptedFilePath = "../Server/assets/uploads/" + hashedfilename + "." + file.filename.split(".")[1];
+                const encryptedFilePath = "../Server/assets/uploads/2" + hashedfilename + "." + file.filename.split(".")[1]
                 // console.log(encryptedFilePath)
-                let inputFile = fs.readFileSync(file.fd);
-                // const encrypted = key.encrypt(data, "base64");
-                const encryptedfile = key.encrypt(Buffer.from(inputFile), "base64");
-                console.log(encryptedfile)
-                console.log(atob(prikey.decrypt(encryptedfile, "base64")))
+                if (!fs.existsSync(encryptedFilePath)) {
+                    let inputFile = fs.readFileSync(file.fd);
+                    // const encrypted = key.encrypt(data, "base64");
+                    const encryptedfile = key.encrypt(Buffer.from(inputFile), "base64");
+                    console.log(encryptedfile)
+                    console.log(atob(prikey.decrypt(encryptedfile, "base64")))
 
-                //   const encryptedfile = key.encrypt(inputFile, "base64");
-                fs.writeFileSync("../Server/assets/uploads/2" + hashedfilename + "." + file.filename.split(".")[1], encryptedfile);
-                // fs.writeFileSync("../Server/assets/uploads/2" + hashedfilename + "." + file.filename.split(".")[1], encryptedfile.toString());
-                fs.unlinkSync(file.fd);
+                    //   const encryptedfile = key.encrypt(inputFile, "base64");
+                    fs.writeFileSync("../Server/assets/uploads/2" + hashedfilename + "." + file.filename.split(".")[1], encryptedfile);
+                    // fs.writeFileSync("../Server/assets/uploads/2" + hashedfilename + "." + file.filename.split(".")[1], encryptedfile.toString());
+                    fs.unlinkSync(file.fd);
+                    return res.view("../views/Success.ejs", {
+                        type: "PubEn",
+                        message: 'File encrypted and uploaded successfully!',
+
+                    });
+                } else {
+                    fs.unlinkSync(file.fd);
+                    return res.view("../views/DuplicateFile.ejs")
+                }
+
 
                 // fs.writeFileSync(encryptedFilePath, encrypted.toString("base64"), 'base64');
                 // fs.renameSync(file.fd, "../Server/assets/uploads/2" + hashedfilename + "." + file.filename.split(".")[1], (err) => {
@@ -417,11 +428,7 @@ module.exports = {
                 //     console.log('Rename complete! ', encryptedFilePath);
                 // })
                 //   fs.writeFileSync(encryptedFilePath, encrypted.toString("base64"), 'base64');
-                return res.view("../views/Success.ejs", {
-                    type: "PubEn",
-                    message: 'File encrypted and uploaded successfully!',
 
-                });
             } catch (encryptionError) {
                 return res.serverError(encryptionError);
             }
@@ -439,7 +446,7 @@ module.exports = {
 
 
         const key = keyP
-       
+
         if (fs.existsSync(encryptedFilePath)) {
             console.log("file exists")
             var encoding = chardet.detectFileSync(encryptedFilePath);
@@ -449,7 +456,7 @@ module.exports = {
                     return res.serverError(err);
                 }
                 try {
-                   
+
                     let inputFile = fs.readFileSync("../Server/assets/uploads/2" + hashedfilename + "." + filename.split(".")[1]);
                     console.log(inputFile.toString())
                     const decryptedfile = keyP.decrypt(inputFile.toString(), "base64");
@@ -465,7 +472,7 @@ module.exports = {
                     console.log(blob)
 
                     return res.redirect("/downloadlink?path=" + path)
-            
+
 
                 } catch (decryptionError) {
                     return res.serverError(decryptionError);
@@ -476,13 +483,15 @@ module.exports = {
         } else {
             return res.view('../views/Unsuccessful')
         }
-      
+
     },
 
     downloadwithPW: async function (req, res) {
         console.log(req.body)
         var pass = req.body.passphrase;
         var filename = req.body.filename;
+        pass = crypto.createHash('sha1')
+                .update(pass).digest('hex');
 
         // var encrptedfiledata = CryptoJS.RC4.encrypt(filedata, pass).toString();
         var hashedfilename = crypto.createHash('sha1')
@@ -516,7 +525,7 @@ module.exports = {
             // const decodedString = atob(decrptedfiledata.toString(CryptoJS.enc.Base64));
             // var decrptydata3 = decodedString;
             fs.writeFileSync("../Server/assets/downloadwithPW/2" + filename, Buffer.from(decrptydata3, "base64"));
-           
+
             // console.log("decrptydata in download", decodedString.toString("base64"))
             // var decrypted2 = Buffer.from(debytes.toString(), "base64");
             // fs.writeFileSync("../Server/assets/download/2" + filename, decrypted2);
@@ -569,79 +578,76 @@ module.exports = {
                 return res.badRequest('No file was uploaded');
             }
             const file = uploadedFiles[0];
-            const data = fs.readFileSync(file.fd);
-
-            // console.log(uploadedFiles.length)
-            // console.log(uploadedFiles);
-            // console.log(file.size)
-
-            // // console.log(req.file('passphrase'))
-            // console.log(data.toString('base64'))
-            var passphrase = req.query.PW;
-            // console.log(passphrase)
-            const encrypted = CryptoJS.AES.encrypt(data.toString('base64'), passphrase).toString();
-            let inputFile = fs.readFileSync(file.fd);
-            var org = inputFile.toString('base64');
-
-
-
-            console.log("org ", inputFile.toString('base64'))
-            var encrptedfiledata = CryptoJS.AES.encrypt(inputFile.toString('base64'), passphrase);
-            // var encrypteded = encrptedfiledata.toString()
-            console.log("encrptydata", encrptedfiledata)
+                const data = fs.readFileSync(file.fd);
            
-            // var decrptydata2 = decrptedfiledata.toString(CryptoJS.enc.Base64);
-
-            // console.log("decrptydata2", decrptydata2) 
-            var decrptedfiledata = CryptoJS.AES.decrypt(encrptedfiledata, passphrase);
-            const decodedString = atob(decrptedfiledata.toString(CryptoJS.enc.Base64));
-            var decrptydata3 = decodedString;
-            console.log("decrptydata3", decrptydata3)
-            const decodedString2 = atob(decodedString);
-
-            var decrptydata4 = decodedString2;
-            console.log("decrpty data4", decodedString2)
-            var hashedfilename = crypto.createHash('sha1')
+                var passphrase = req.query.PW;
+                // console.log(passphrase)
+                passphrase = crypto.createHash('sha1')
+                .update(passphrase).digest('hex');
+                var hashedfilename = crypto.createHash('sha1')
                 .update(file.filename + "" + passphrase).digest('hex');
+            var path = "../Server/assets/uploadwithPW/2" + hashedfilename + "." + file.filename.split(".")[1]
 
-            // fs.writeFileSync("../Server/assets/uploadwithPW/org3" + hashedfilename + "." + file.filename.split(".")[1], Buffer.from(decrptydata3, "base64"));
-            // if(decrptydata4 == atob(data.toString("base64"))){
-            //     console.log("check and org same ,\n" ,decrptydata4,  atob(data.toString("base64")))
-            // }else{
-            //     console.log("check not org same ,\n" ,decrptydata4, atob(data.toString("base64")))
-            // }
+            if (!fs.existsSync(path)) {
+                
+                // console.log(uploadedFiles.length)
+                // console.log(uploadedFiles);
+                // console.log(file.size)
 
-            //     fs.writeFileSync("../Server/assets/uploadwithPW/check" + hashedfilename + "." + file.filename.split(".")[1],  Buffer.from( atob(data.toString("base64"))) );
-            //     inputFile = fs.readFileSync("../Server/assets/uploadwithPW/check" + hashedfilename + "." + file.filename.split(".")[1]);
-            // // console.log("finalresult",inputFile.toString('base64'))
-            // fs.writeFileSync("../Server/assets/uploadwithPW/org"+ hashedfilename + "." + file.filename.split(".")[1],decrptydata4);
-            fs.writeFileSync("../Server/assets/uploadwithPW/2" + hashedfilename + "." + file.filename.split(".")[1], encrptedfiledata.toString());
-            // inputFile = fs.readFileSync("../Server/assets/uploadwithPW/org" + hashedfilename + "." + file.filename.split(".")[1]);
-            // console.log(data.toString("base64") == inputFile.toString("base64"))
-            // var decrptedfiledata = CryptoJS.AES.encrypt(encrptedfiledata.toString('base64'), passphrase).toString();;
-            fs.unlinkSync(file.fd);
-            console.log("../Server/assets/uploadwithPW/2" + hashedfilename + "." + file.filename.split(".")[1])
+                // // console.log(req.file('passphrase'))
+                // console.log(data.toString('base64'))
+              
+                const encrypted = CryptoJS.AES.encrypt(data.toString('base64'), passphrase).toString();
+                let inputFile = fs.readFileSync(file.fd);
+                var org = inputFile.toString('base64');
 
 
 
-            // Get the passphrase from the body
+                console.log("org ", inputFile.toString('base64'))
+                var encrptedfiledata = CryptoJS.AES.encrypt(inputFile.toString('base64'), passphrase);
+                // var encrypteded = encrptedfiledata.toString()
+                console.log("encrptydata", encrptedfiledata)
 
-            // var hashedfilename = crypto.createHash('sha1')
-            //     .update(file.filename + "" + passphrase).digest('hex');
-            // var path = "../Server/assets/uploadwithPW/" + hashedfilename + "." + file.filename.split(".")[1]
-            // // TODO: Do something with the passphrase and file information
-            // console.log('Passphrase:', passphrase);
-            // console.log('File Details:', file);
+                // var decrptydata2 = decrptedfiledata.toString(CryptoJS.enc.Base64);
 
-            // fs.rename(file.fd, path, (err) => {
-            //     if (err) throw err;
-            //     fs.writeFileSync(path, encrypted.toString("base64"), 'utf8');
-            //     console.log('Rename complete!');
-            // })
-            // // Respond with the information of the file(s) that were uploaded.
-            return res.redirect("/Success");
-        }).on('finish', function onSuccess() {
-            console.log("here")
+                // console.log("decrptydata2", decrptydata2) 
+                var decrptedfiledata = CryptoJS.AES.decrypt(encrptedfiledata, passphrase);
+                const decodedString = atob(decrptedfiledata.toString(CryptoJS.enc.Base64));
+                var decrptydata3 = decodedString;
+                console.log("decrptydata3", decrptydata3)
+                const decodedString2 = atob(decodedString);
+
+                var decrptydata4 = decodedString2;
+                console.log("decrpty data4", decodedString2)
+                var hashedfilename = crypto.createHash('sha1')
+                    .update(file.filename + "" + passphrase).digest('hex');
+
+                // fs.writeFileSync("../Server/assets/uploadwithPW/org3" + hashedfilename + "." + file.filename.split(".")[1], Buffer.from(decrptydata3, "base64"));
+                // if(decrptydata4 == atob(data.toString("base64"))){
+                //     console.log("check and org same ,\n" ,decrptydata4,  atob(data.toString("base64")))
+                // }else{
+                //     console.log("check not org same ,\n" ,decrptydata4, atob(data.toString("base64")))
+                // }
+
+                //     fs.writeFileSync("../Server/assets/uploadwithPW/check" + hashedfilename + "." + file.filename.split(".")[1],  Buffer.from( atob(data.toString("base64"))) );
+                //     inputFile = fs.readFileSync("../Server/assets/uploadwithPW/check" + hashedfilename + "." + file.filename.split(".")[1]);
+                // // console.log("finalresult",inputFile.toString('base64'))
+                // fs.writeFileSync("../Server/assets/uploadwithPW/org"+ hashedfilename + "." + file.filename.split(".")[1],decrptydata4);
+                fs.writeFileSync("../Server/assets/uploadwithPW/2" + hashedfilename + "." + file.filename.split(".")[1], encrptedfiledata.toString());
+                // inputFile = fs.readFileSync("../Server/assets/uploadwithPW/org" + hashedfilename + "." + file.filename.split(".")[1]);
+                // console.log(data.toString("base64") == inputFile.toString("base64"))
+                // var decrptedfiledata = CryptoJS.AES.encrypt(encrptedfiledata.toString('base64'), passphrase).toString();;
+                fs.unlinkSync(file.fd);
+                console.log("../Server/assets/uploadwithPW/2" + hashedfilename + "." + file.filename.split(".")[1])
+                return res.redirect("/Success");
+
+
+            } else {
+                fs.unlinkSync(file.fd);
+                return res.view("../views/DuplicateFile.ejs")
+            }
+
+
         });
 
 
