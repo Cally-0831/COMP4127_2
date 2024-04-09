@@ -19,9 +19,39 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  '/': { view: 'pages/homepage' },
+  '/': "FileController.LoginPage",
+  "POST /EncryptForMe": "FileController.EncryptFile",
+  "POST /EncryptForMePub": "FileController.EncryptFileWithPub",
+  "POST /DecryptForMe": "FileController.DecryptFile",
+  "GET /DecryptForMe2": "FileController.DecryptFile2",
+  "POST /DecryptForMePub": "FileController.DecryptFileWithPub",
+  "GET /publicKey": "FileController.importKey",
+  "GET /test": "FileController.dispatch",
+  "POST /file/uploadPubEn": "FileController.uploadPubEn",
+
+  'POST /upload': {
+    controller: 'FileController',
+    action: 'upload'
+  },
+  "GET /Success": {
+    view: 'Success'
+  },
+  
+  "POST /SuccessDownload": "FileController.SuccessDownload",
 
 
+  "POST /downloadwithPW":"FileController.downloadwithPW",
+
+  'POST /download': "FileController.download",
+
+  'POST /uploadwithPW': {
+    controller: 'FileController',
+    action: 'uploadwithPW'
+  },
+  'GET /Unsuccessful': {
+    view: 'Unsuccessful'
+  },
+  "GET /downloadlink" :"FileController.downloadlink",
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *

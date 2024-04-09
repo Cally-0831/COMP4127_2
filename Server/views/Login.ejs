@@ -1,0 +1,384 @@
+<section class="hero is-info">
+    <div class="hero-body">
+        <p class="title"> Welcome to File Encryption & Decrptyion Center</p>
+    </div>
+</section>
+<div class="columns is-mobile is-centered is-multiline">
+
+
+    <div class="column is-half">
+        <section class="section is-large" style="align-items: center;">
+            <div class="box" style="background-color: rgb(247, 180, 98);">
+                <h1 class="title">Encrypt with Public Key Path</h1>
+                <form action="/upload" method="post" enctype="multipart/form-data">
+                    <div>
+                        <label for="file">Choose file to upload</label>
+                        <input type="file" id="file" name="file" required>
+                    </div>
+                    <div>
+                        <button type="submit">Upload File</button>
+                    </div>
+                </form>
+
+            </div>
+        </section>
+    </div>
+    <div class="column is-half">
+        <section class="section is-large">
+            <form class="box" action="/download" method="post" enctype="multipart/form-data" id="decryptWithPublicKey"
+                style="background-color: rgb(89, 182, 232);">
+
+                <h1 class="title">Decrypt with Private Key Path</h1>
+                <!-- <form class="box"action="/download" method="post" enctype="multipart/form-data" id = "decryptWithPublicKey" style="background-color: rgb(89, 182, 232);"> -->
+                <!-- <script type="text/javascript">
+                        async function submitForm() {
+                            var requestbody = JSON.stringify({ filename: document.getElementById('filename').value })
+                            var response = await fetch("/download", {
+                                method: "POST",
+                                body: requestbody
+                            })
+                            if (response.status == 200) {
+                                console.log(response)
+
+                            }
+                        }
+                    </script> -->
+                <label for="filename">File Name:</label>
+                <input type="text" id="fileNameDEPUB" name="filename" required>
+                <button type="submit" >Download</button>
+            </form>
+
+            </form>
+        </section>
+    </div>
+    
+
+    <div class="column is-half">
+        <section class="section is-large" style="align-items: center;">
+            <div class="box" style="background-color: rgb(247, 180, 98);">
+                <h1 class="title">Encrypt with Passphase Path</h1>
+                <form id="uploadwithPW" action="/uploadwithPW" method="post" enctype="multipart/form-data" onsubmit="heyhey()">
+                    <div>
+                        <label for="file">Choose file to upload</label>
+                        <input type="file" id="filea" name="file" required>
+                    </div>
+                    <div>
+                        <label for="passphrase">Enter your passphrase</label>
+                        <input type="password" id="passphraseEn" name="passphrase" required>
+                    </div>
+                    <div>
+                        <button type="submit">Upload File</button>
+
+                    </div>
+                </form>
+
+        </section>
+    </div>
+
+    <div class="column is-half">
+        <section class="section is-large" style="align-items: center;">
+            <form class="box" action="/downloadwithPW" method="post" enctype="multipart/form-data" id="encryptionForm"
+                style="background-color: rgb(89, 182, 232);">
+
+                <h1 class="title">Decrypt with Passphase Path</h1>
+
+                <div>
+                    <label for="fileNamePW">File Name:</label>
+                    <input type="text" id="fileNamePW" name="filename" required>
+                    <label for="PassphraseDe">Passphrase:</label>
+                    <input type="password" id="PassphraseDe" name="passphrase" required>
+                    <button type="submit">Download File</button>
+
+                </div>
+            </form>
+
+        </section>
+    </div>
+</div>
+
+
+
+
+
+
+<script>
+    // function decrypting() {
+    //     alert("hello")
+    //     location.assign("/test")
+    // }
+    // function displayPw() {
+    //     if (document.getElementById("UsePass").checked == true) {
+    //         document.getElementById("PassphraseField").innerHTML = "<label class=\"label\">Password</label\><div class=\"control\"\>"
+    //             + "<input class=\"input\" id=\"enPassword\" type=\"password\" placeholder=\"********\" /\></div>"
+    //             + "<br\><div class=\"buttons is-right\"\><button class=\"button is-primary\" id=\"encrypt\" onclick=\"encrypt()\">"
+    //             + "Select File and Encrypt</button></div>"
+    //     } else {
+    //         document.getElementById("PassphraseField").innerHTML = "<br\><div class=\"buttons is-right\"\><button class=\"button is-primary\" id=\"encrypt\" onclick=\"encryptWithPublicKey()\">"
+    //             + "Select File and Encrypt with Public Key</button></div>";
+    //     }
+    // }
+    // // const form = document.querySelector('form');
+    // function decrptwithdisplayPw() {
+    //     if (document.getElementById("DePass").checked == true) {
+    //         document.getElementById("DePassphraseField").innerHTML = "<label class=\"label\">Password</label\><div class=\"control\"\>"
+    //             + "<input class=\"input\" id=\"dePassword\" type=\"password\" placeholder=\"********\" /\></div>"
+    //             + "<br\><div class=\"buttons is-right\"\><button class=\"button is-primary\" id=\"decryption\" onclick=\"decrypting()\">"
+    //             + "Decrypt with Password</button></div>"
+    //     } else {
+    //         document.getElementById("DePassphraseField").innerHTML = "<br\><div class=\"buttons is-right\"\><button class=\"button is-primary\" id=\"decrypt\" onclick=\"decryptWithPublicKey()\">"
+    //             + "Decrypt</button></div>";
+    //     }
+    // }
+
+    // function str2ab(str) {
+    //     var buf = new ArrayBuffer(str.length * 2); // 2 bytes for each char
+    //     var bufView = new Uint16Array(buf);
+    //     for (var i = 0, strLen = str.length; i < strLen; i++) {
+    //         bufView[i] = str.charCodeAt(i);
+    //     }
+    //     return buf;
+    // }
+
+    // /** @param {Event} event */
+    // const pickAFile = (getText = true) => {
+    //     return new Promise((resolve, reject) => {
+    //         const input = document.createElement('input');
+    //         input.type = 'file';
+    //         input.onchange = (e) => {
+    //             const file = e.target.files[0];
+    //             const reader = new FileReader();
+    //             if (!getText) {
+    //                 resolve(file);
+    //             } else {
+    //                 reader.onload = (e) => resolve(e.target.result);
+    //                 reader.onerror = (e) => reject(e);
+    //                 reader.readAsText(file);
+    //             }
+    //         };
+    //         input.click();
+    //     });
+    // };
+
+    // async function GETPriKey() {
+    //     var response = await fetch("/publicKey", {
+    //         method: "GET",
+    //     })
+    //     if (response.status == 200) {
+    //         var key = await response.json();
+    //         return key.privateKey
+    //     }
+    // }
+    // async function GETPubKey() {
+    //     var response = await fetch("/publicKey", {
+    //         method: "GET",
+    //     })
+    //     if (response.status == 200) {
+    //         var key = await response.json();
+    //         return key.publicKey
+    //     }
+    // }
+
+    // function encryptkey(data, publicKey) {
+    //     let encrypt = new JSEncrypt();
+    //     encrypt.setPublicKey(publicKey);
+    //     let cipher = encrypt.encrypt(data)
+
+    //     return cipher.toString("base64");
+    // }
+    // function decryptkey(data, privateKey) {
+    //     let encrypt = new JSEncrypt();
+    //     encrypt.setPrivateKey(privateKey);
+    //     let cipher = encrypt.decrypt(data)
+
+    //     return cipher.toString("base64");
+    // }
+
+
+    // async function encryptWithPublicKey() {
+
+    //     let publicKey = "";
+    //     let cryptoKey = "";
+
+    //     if (document.getElementById("UsePass").checked == false) {
+    //         publicKey = await GETPubKey();
+    //         cryptoKey = await GETPriKey();
+
+
+
+    //     }
+    //     console.log(publicKey, "\n", cryptoKey)
+    //     const encryptNode = document.querySelector('#encrypt');
+
+
+    //     alert("here2")
+    //     var thisfile;
+    //     pickAFile(false).then(async (file) => {
+    //         console.log(file)
+    //         var requestbody = JSON.stringify({ file: file })
+    //         requestbody = encrypt(requestbody, publicKey)
+    //         console.log(requestbody)
+    //         var requestbody = JSON.stringify({ encrypt: requestbody })
+    //         console.log(requestbody)
+    //         var response = await fetch("/EncryptForMePub", {
+    //             method: "POST",
+    //             body: requestbody
+    //         })
+    //     })
+
+    // }
+
+    // async function encrypt() {
+
+    //     const passNode = document.querySelector('#enPassword');
+
+    //     // const decryptNode = document.querySelector('#decrypt');
+
+
+    //     if (document.getElementById("UsePass").checked == true && !passNode.value) return alert('Password input is empty! Aborting.')
+    //     else if (document.getElementById("UsePass").checked == true && passNode.value) {
+
+    //         const pass = CryptoJS.SHA3(passNode.value);
+    //         pickAFile(false).then((file) => {
+    //             console.log(file)
+    //             const reader = new FileReader();
+    //             reader.onload = async (e) => {
+    //                 var wordArray = CryptoJS.lib.WordArray.create(e.target.result); // Fix 2a: Convert data to WordArray type
+    //                 const encryptedContent = CryptoJS.RC4.encrypt(wordArray, pass).toString(); // Fix 2b: Pass the WordArray
+    //                 const encryptedname = CryptoJS.RC4.encrypt(CryptoJS.lib.WordArray.create(file.name), pass).toString();
+    //                 console.log(encryptedname)
+    //                 var response = await fetch("/EncryptForMe", {
+    //                     method: "POST",
+    //                     body: JSON.stringify({ filecontent: encryptedContent, filename: encryptedname, filetype: file.name.split(".")[1] })
+    //                 })
+    //                 if (response.status == 200) {
+    //                     alert(await response.json());
+    //                     location.reload();
+    //                 } else {
+    //                     alert(await response.json());
+    //                     location.reload();
+    //                 }
+    //                 // download(encrypted, `encrypted-${file.name}`, file.type);
+    //             };
+    //             reader.readAsArrayBuffer(file); // Fix 1: replace readAsText() with readAsArrayBuffer()
+    //         });
+
+    //     }
+
+    // }
+
+    // async function decryptWithPublicKey() {
+    //     publicKey = await GETPubKey();
+
+    //     const passNode = document.getElementById('dePassword');
+    //     var filename = document.getElementById('filename');
+
+    //     if (document.getElementById("DePass").checked == false && filename.value == "") {
+    //         return alert('filename input is empty! Aborting.')
+    //     } else if (document.getElementById("DePass").checked == false && !filename.value == "") {
+
+
+
+    //         var encryptedfilename = encryptkey(filename.value, publicKey)
+    //         console.log(encryptedfilename)
+    //         var response = await fetch("/DecryptForMePub", {
+    //             method: "POST",
+    //             body: JSON.stringify({ filename: encryptedfilename, filetype: filename.value.split(".")[1] })
+    //         })
+    //         if (response.status == 200) {
+    //             var obj = await response.json();
+    //             var filefile = obj.file;
+
+
+    //         } else {
+    //             var obj = await response.json();
+    //             alert(obj.msg)
+    //         }
+    //     }
+
+    // }
+
+    // async function encryptFile() {
+    //     // Retrieve the passphrase and file from the form
+    //     const passphrase = document.getElementById('passphrase').value;
+    //     const fileInput = document.getElementById('fileInput');
+    //     const file = fileInput.files[0];
+
+    //     if (file) {
+    //         // Create a FileReader instance
+    //         console.log(file)
+    //         const reader = new FileReader();
+
+    //         // Read the file as an ArrayBuffer
+    //         reader.readAsArrayBuffer(file);
+
+    //         reader.onload = async function (event) {
+    //             // This is where the file's data is available after being read
+    //             //   const fileData = event.target.result;
+
+    //             // Perform encryption here using the passphrase
+    //             // For demonstration, we'll just log the data to the console
+    //             //   console.log('File data:', fileData);
+    //             //   console.log('Passphrase:', passphrase);
+    //             const fileData = (event.target.result);
+    //             var burrfer = window.btoa(fileData)
+    //             console.log('File data:', burrfer);
+    //             console.log('Passphrase:', passphrase);
+    //             var response = await fetch("/EncryptPW", {
+    //                 method: "POST",
+    //                 body: JSON.stringify({ filename: file.name, fileData: burrfer, passphrase: passphrase, filetype: file.type })
+    //             })
+    //             if (response.status == 200) {
+    //                 location.assign("/Success")
+    //             }
+
+    //             // You would replace the above lines with actual encryption code
+    //             // After encryption, you could then save the file or do whatever is required with the encrypted data
+    //         };
+
+    //         reader.onerror = function (error) {
+    //             console.error('Error reading file:', error);
+    //         };
+    //     } else {
+    //         alert('Please select a file to encrypt.');
+    //     }
+    // }
+
+    // async function submitsubmit() {
+    //     alert("hey")
+    //     // var encryptkey = await GETPubKey();
+    //     // console.log(encryptkey)
+
+    //     // const encryptedfilename = encryptkey(document.getElementById("fileNamePW").value, encryptkey)
+    //     // const encryptedpassphrase = encryptkey(document.getElementById("PassphraseDe").value, encryptkey)
+    //     var requestbody = JSON.stringify({
+    //         filename: document.getElementById("fileNamePW").value,
+    //         Passphrase: document.getElementById("PassphraseDe").value,
+    //     })
+
+    //     var response = await fetch('/downloadwithPW', {
+    //         method: "POST",
+    //         body: requestbody
+    //     })
+    //     if (response.status == 200) {
+    //         alert("back")
+    //         var obj = await response.json();
+    //         alert(obj)
+    //         location.assign('/SuccessfulDownload')
+    //         var response2 = await fetch(obj.pathto, {
+    //             method: "POST",
+    //             body: obj
+    //         })
+    //     } else {
+    //         location.assign("/Unsuccessful")
+    //     }
+
+    // }
+
+    function heyhey() {
+       
+        var action = document.getElementById("passphraseEn").value
+        document.getElementById("uploadwithPW").action = document.getElementById("uploadwithPW").action + "?" + "PW=" + action
+        // alert(document.getElementById("uploadwithPW").action)
+    }
+
+</script>
