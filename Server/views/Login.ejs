@@ -4,25 +4,61 @@
     </div>
 </section>
 <div class="columns is-mobile is-centered is-multiline is-3-desktop">
-
+    <div id="pubKey" hidden>
+        <%=pubKey%>
+    </div>
 
     <div class="column">
         <section class="section is-large" style="align-items: center;">
             <div class="box" style="background-color: rgb(247, 180, 98);">
                 <h1 class="title">Encrypt with Public Key Path</h1>
-                <form action="/upload" method="post" enctype="multipart/form-data">
-                    <div>
-                        <label for="file">Choose file to upload</label>
-                        <input type="file" id="file" name="file" required>
-                    </div>
-                    <div>
-                        <button type="submit">Upload File</button>
-                    </div>
-                </form>
+
+                <div>
+                    <label for="file">Choose file to upload</label>
+                    <input type="file" id="file" name="file" required>
+                </div>
+                <div>
+                    <button onclick="submit(this)">Upload File</button>
+                </div>
+
 
             </div>
         </section>
     </div>
+    <script>
+        async function submit(formele) {
+            // var blob = new Blob([window.atob(document.getElementById("file").files[0])], {type: 'application/octet-stream'});
+            var file = document.getElementById("file").files[0]
+            console.log(file.name)
+            const reader = new FileReader();
+
+            var requestbody;
+            reader.onload = async function (e) {
+                console.log(e.target.result)
+                var stringstring = window.btoa(e.target.result)
+                console.log(stringstring.toString())
+                requestbody = JSON.stringify({ filecontent:window.btoa(e.target.result), filename: file.name })
+                console.log(requestbody)
+
+
+                // var cipher = encryptkey(e.target.result.toString("base64"), publicKey)
+                // alert( e.target.result.toString("base64"))
+                var response = await fetch("/upload", {
+                    method: "POST",
+                    body: requestbody
+                })
+                var json = await response.json();
+                location.assign(json.path);
+            };
+            reader.readAsDataURL(file);
+
+            // var formdata = document.getElementById("file").files[0];
+
+            // // console.log(ArrayBuffer(formdata))
+            // var requestbody = JSON.stringify({ file: formdata })
+            // console.log(requestbody)
+        }
+    </script>
     <div class="column">
         <section class="section is-large">
             <form class="box" action="/download" method="post" enctype="multipart/form-data" id="decryptWithPublicKey"
@@ -45,19 +81,19 @@
                     </script> -->
                 <label for="filename">File Name:</label>
                 <input type="text" id="fileNameDEPUB" name="filename" required>
-                <button type="submit" >Download</button>
+                <button type="submit">Download</button>
             </form>
 
             </form>
         </section>
     </div>
-    
+
 
     <div class="column ">
         <section class="section is-large" style="align-items: center;">
             <div class="box" style="background-color: rgb(247, 180, 98);">
                 <h1 class="title">Encrypt with Passphase Path</h1>
-                <form id="uploadwithPW" action="/uploadwithPW" method="post" enctype="multipart/form-data" onsubmit="heyhey()">
+               
                     <div>
                         <label for="file">Choose file to upload</label>
                         <input type="file" id="filea" name="file" required>
@@ -67,13 +103,49 @@
                         <input type="password" id="passphraseEn" name="passphrase" required>
                     </div>
                     <div>
-                        <button type="submit">Upload File</button>
+                        <button  onclick="submit2(this)">Upload File</button>
 
                     </div>
-                </form>
+                
 
         </section>
     </div>
+    <script>
+        async function submit2(formele) {
+            // var blob = new Blob([window.atob(document.getElementById("file").files[0])], {type: 'application/octet-stream'});
+            var file = document.getElementById("filea").files[0]
+            var passphraseEn = document.getElementById("passphraseEn").value
+            console.log(file.name)
+            const reader = new FileReader();
+
+            var requestbody;
+            reader.onload = async function (e) {
+                console.log(e.target.result)
+                var stringstring = window.btoa(e.target.result)
+                console.log(stringstring.toString())
+                requestbody = JSON.stringify({ filecontent:window.btoa(e.target.result), filename: file.name,passphrase:passphraseEn })
+                console.log(requestbody)
+
+
+                // var cipher = encryptkey(e.target.result.toString("base64"), publicKey)
+                // alert( e.target.result.toString("base64"))
+                var response = await fetch("/uploadwithPW", {
+                    method: "POST",
+                    body: requestbody
+                })
+                var json = await response.json();
+                location.assign(json.path);
+               
+            };
+            reader.readAsDataURL(file);
+
+            // var formdata = document.getElementById("file").files[0];
+
+            // // console.log(ArrayBuffer(formdata))
+            // var requestbody = JSON.stringify({ file: formdata })
+            // console.log(requestbody)
+        }
+    </script>
 
     <div class="column">
         <section class="section is-large" style="align-items: center;">
@@ -101,7 +173,7 @@
 
 
 
-
+<!-- 
 <script>
     // function decrypting() {
     //     alert("hello")
@@ -376,10 +448,10 @@
     // }
 
     function heyhey() {
-       
+
         var action = document.getElementById("passphraseEn").value
         document.getElementById("uploadwithPW").action = document.getElementById("uploadwithPW").action + "?" + "PW=" + action
         // alert(document.getElementById("uploadwithPW").action)
     }
 
-</script>
+</script> -->

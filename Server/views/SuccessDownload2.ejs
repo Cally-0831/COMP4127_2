@@ -78,7 +78,7 @@
             // Decode the base64 string to an array of character codes
             var decodedStringAtoB = window.atob(base64);
             var decodedStringAtoB2 = decodedStringAtoB.toString().split(",")[1]
-            const byteCharacters = window.atob(window.atob(decodedStringAtoB).split(",")[1])
+            const byteCharacters = window.atob(decodedStringAtoB2)
             // const byteNumbers = new Array(window.atob(decodedStringAtoB).length);
             const byteNumbers = new Array(byteCharacters.length);
             for (let i = 0; i < byteCharacters.length; i++) {

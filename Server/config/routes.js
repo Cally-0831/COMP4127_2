@@ -20,14 +20,14 @@ module.exports.routes = {
   ***************************************************************************/
 
   '/': "FileController.LoginPage",
-  "POST /EncryptForMe": "FileController.EncryptFile",
-  "POST /EncryptForMePub": "FileController.EncryptFileWithPub",
-  "POST /DecryptForMe": "FileController.DecryptFile",
-  "GET /DecryptForMe2": "FileController.DecryptFile2",
-  "POST /DecryptForMePub": "FileController.DecryptFileWithPub",
-  "GET /publicKey": "FileController.importKey",
-  "GET /test": "FileController.dispatch",
-  "POST /file/uploadPubEn": "FileController.uploadPubEn",
+  // "POST /EncryptForMe": "FileController.EncryptFile",
+  // "POST /EncryptForMePub": "FileController.EncryptFileWithPub",
+  // "POST /DecryptForMe": "FileController.DecryptFile",
+  // "GET /DecryptForMe2": "FileController.DecryptFile2",
+  // "POST /DecryptForMePub": "FileController.DecryptFileWithPub",
+  // "GET /publicKey": "FileController.importKey",
+  // "GET /test": "FileController.dispatch",
+  // "POST /file/uploadPubEn": "FileController.uploadPubEn",
 
   'POST /upload': {
     controller: 'FileController',
@@ -36,7 +36,7 @@ module.exports.routes = {
   "GET /Success": {
     view: 'Success'
   },
-  
+  "POST /SuccessDownload2": "FileController.SuccessDownload2",
   "POST /SuccessDownload": "FileController.SuccessDownload",
 
 
@@ -52,9 +52,7 @@ module.exports.routes = {
     view: 'Unsuccessful'
   },
   "GET /downloadlink" :"FileController.downloadlink",
-  "GET /DuplicateFile": {
-    view: 'DuplicateFile'
-  },
+  "GET /DuplicateFile": { view: 'DuplicateFile' },
   /***************************************************************************
   *                                                                          *
   * More custom routes here...                                               *
