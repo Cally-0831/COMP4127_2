@@ -22,12 +22,24 @@ const Writable = require('stream').Writable;
 var priKey;
 var pubKey;
 
-const directory1 = "../Server/assets/uploadwithPW/";
-const directory2 = "../Server/assets/downloadwithPW/";
-const directory3 = "../Server/assets/uploads/";
-const directory4 = "../Server/assets/download/";
-
+const directory1 = "../Server/assets/uploadwithPW";
+const directory2 = "../Server/assets/downloadwithPW";
+const directory3 = "../Server/assets/uploads";
+const directory4 = "../Server/assets/download";
+if (!fs.existsSync(directory1)) {
+    fs.mkdirSync(directory1);
+  }
+  if (!fs.existsSync(directory2)) {
+    fs.mkdirSync(directory2);
+  }
+  if (!fs.existsSync(directory3)) {
+    fs.mkdirSync(directory3);
+  }
+  if (!fs.existsSync(directory4)) {
+    fs.mkdirSync(directory4);
+  }
 function removefile() {
+   
     fs.readdir(directory1, (err, files) => {
         if (err) throw err;
 
